@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="ss.css">
+</head>
+<body>
+
+<!-- Table -->
+<table border="1">
+    <tr>
+        <th colspan="2">Name</th>
+        <th rowspan="2">Department</th>
+    </tr>
+</table>
+
+<!-- list -->
+<ul class="st">
+   <li>maw</li> 
+   <li>maw</li>  
+</ul>
+
+ <!-- Alart -->   
+<button onclick="My()">try it</button>
+<script>
+         function My() {
+            alert("fuad");
+         }
+
+</script>
+
+<!-- confirm -->
+<button onclick="m()">Try it</button>
+<p id="demo"></p>
+<script>
+function m() {
+  var txt;
+  if (confirm("Press a button!")) {
+    txt = "You pressed OK!";
+  } else {
+    txt = "You pressed Cancel!";   }
+  document.getElementById("demo").innerHTML = txt; }
+</script>
+
+<!-- Prompt -->
+ <!-- let person = prompt("name"); -->
+  <!--  if (person != null) -->
+
+<!-- ajax request -->
+<!-- ajax resposn -->
+  <button type="button" onclick="loadDoc()">Request data</button>
+<p id="demo"></p>
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "ajax.txt", true);
+  xhttp.send();
+}
+</script>
+
+
+<!-- php connect -->
+//connect.php
+<?php
+$username = "root";
+$password = "";
+$database = "jahid";
+
+// Create connection
+$mysqli = new mysqli("localhost", $username, $password, $database);
+
+ // Check connection
+ if ($mysqli−>connect_error) {
+ die("Connection failed: " . $mysqli−>connect_error);
+ }
+ echo "Connected successfully";
+ ?>
+
+
+ <!-- php insert -->
+  //data_insert.php
+ 
+  <?php
+  $sql = "SELECT id, st_name, st_dept FROM student";
+  echo ’<table style="width:60%" border="2" >
+  <tr>
+  <th>ID</font> </th>
+  <th> Student Name</font> </th>
+  <th> Student Dept.</font> </th>
+  <th><font color="green">Edit</font></th>
+  <th><font color="Red">Delete</font></th>
+  </tr>’;
+ 
+  if ($result = $mysqli−>query($sql)) {
+  while ($row = $result−>fetch_assoc()) {
+  $ID = $row["id"];
+  $Name = $row["st_name"];
+  $Dept = $row["st_dept"];
+ 
+  echo ’<tr>
+  <td>’.$ID.’</td>
+  <td>’.$Name.’</td>
+  <td>’.$Dept.’</td>
+  <td>
+ 
+  <button class="btn btn−primary"> <a href="single_edit.php?
+ 
+ updateid=’.$ID.’" >Update</a></button>
+ 
+  </td>
+  <td>
+  <button class="btn btn−primary"> <a href="single_delete.php?
+ 
+ deleteid=’.$ID.’">Delete</a></button>
+ 
+  </td>
+  </tr>’;
+  }
+  $result−>free();
+  }
+  $mysqli −>close();
+  ?>
+
+
+ <!-- php insert -->
+ //data_insert.php
+  <?php
+  session_start();
+  include_once(’connection.php’);
+  ?>
+ 
+  <form action="" method="post">
+  <div> Student Name: <input type="text" name="st_name" value="" /> </br>
+  Department: <input type="text" name="st_dept" value="" /></br>
+  <input type="submit" name="submit" value="Insert" /></div>
+  </form>
+ 
+  <?php
+  if(isset($_POST[’submit’]))
+  {
+  if(!empty ($_POST[’st_name’]) && !empty ($_POST[’st_dept’])){
+  $name= $_POST[’st_name’];
+  $Dept= $_POST[’st_dept’];
+ 
+  $sql = "INSERT INTO student(st_name, st_dept) VALUES(’$name’,’$Dept’)";
+  $run =mysqli_multi_query($mysqli,$sql) or die(mysqli_query());
+ 
+  if($run){
+  echo "<h1>Submitted Successfully..</h1>";
+  }
+  else{
+  echo "<h1> Not Submitted </h1>";
+  } }
+  else{
+  echo "<h2> All Fields are required </h2>";
+  } } ?>
+
+</body>
+</html>
